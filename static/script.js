@@ -1,4 +1,58 @@
-function toggleChat() {
+    // ============================
+    // 📋 RECIPE MODAL FUNCTIONS
+    // ============================
+    function showRecipeModal(recipe) {
+      let modal = document.getElementById("recipeModal");
+      if (!modal) {
+        modal = document.createElement("div");
+        modal.id = "recipeModal";
+        modal.className = "recipe-modal";
+        document.body.appendChild(modal);
+
+        modal.addEventListener("click", (e) => {
+          if (e.target === modal) {
+            closeRecipeModal();
+          }
+        });
+      }
+
+      modal.innerHTML = `
+        <div class="recipe-modal-container">
+          <span class="recipe-modal-close" onclick="closeRecipeModal()" aria-label="Close recipe details">&times;</span>
+          <div class="recipe-modal-content">
+            <img src="/static/images/${recipe.image}" alt="${recipe.recipe_name}">
+            <h2>${recipe.recipe_name}</h2>
+            <h4>Ingredients:</h4>
+            <ul>
+              ${recipe.ingredients.map(ing => `<li>${ing.quantity} ${ing.item}</li>`).join("")}
+            </ul>
+            <h4>Steps:</h4>
+            <ol>
+              ${recipe.steps ? recipe.steps.map(step => `<li>${step}</li>`).join("") : '<li>No steps provided.</li>'}
+            </ol>
+          </div>
+        </div>
+      `;
+
+      modal.classList.add("show");
+      document.body.classList.add("recipe-modal-open");
+    }
+
+    function closeRecipeModal() {
+      const modal = document.getElementById("recipeModal");
+      if (modal) {
+        modal.classList.remove("show");
+      }
+      document.body.classList.remove("recipe-modal-open");
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeRecipeModal();
+      }
+    });
+
+    function toggleChat() {
       const chatWindow = document.getElementById("chatWindow");
       chatWindow.style.display = chatWindow.style.display === "flex" ? "none" : "flex";
     }
@@ -70,18 +124,14 @@ function toggleChat() {
           const card = document.createElement("div");
           card.className = "recipe-card";
           card.innerHTML = `
-      <img src="/static/images/${recipe.image}" alt="${recipe.recipe_name}">
-        <div style="padding: 1rem;">
-          <h3>${recipe.recipe_name}</h3>
-          <ul>
-            ${recipe.ingredients.map(ing => `<li>${ing.quantity} ${ing.item}</li>`).join("")}
-          </ul>
-          <h4>Steps:</h4>
-          <ol>
-            ${recipe.steps ? recipe.steps.map(step => `<li>${step}</li>`).join("") : '<li>No steps provided.</li>'}
-          </ol>
-        </div>
-        `;
+            <img src="/static/images/${recipe.image}" alt="${recipe.recipe_name}">
+            <div class="recipe-card-title">
+              <h3>${recipe.recipe_name}</h3>
+            </div>
+          `;
+          card.addEventListener("click", () => {
+            showRecipeModal(recipe);
+          });
           recipeContainer.appendChild(card);
         });
       });
@@ -109,18 +159,14 @@ function toggleChat() {
         const card = document.createElement("div");
         card.className = "recipe-card";
         card.innerHTML = `
-        <img src="/static/images/${recipe.image}" alt="${recipe.recipe_name}">
-          <div style="padding: 1rem;">
+          <img src="/static/images/${recipe.image}" alt="${recipe.recipe_name}">
+          <div class="recipe-card-title">
             <h3>${recipe.recipe_name}</h3>
-            <ul>
-              ${recipe.ingredients.map(ing => `<li>${ing.quantity} ${ing.item}</li>`).join("")}
-            </ul>
-            <h4>Steps:</h4>
-            <ol>
-              ${recipe.steps ? recipe.steps.map(step => `<li>${step}</li>`).join("") : '<li>No steps provided.</li>'}
-            </ol>
           </div>
-          `;
+        `;
+        card.addEventListener("click", () => {
+          showRecipeModal(recipe);
+        });
         container.appendChild(card);
       });
     }
