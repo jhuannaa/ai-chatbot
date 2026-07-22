@@ -425,6 +425,8 @@ body.dark-mode .recipe-instructions h4 {
 #main-course1,
 #dessert1 {
   display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   position: relative;
   height: 550px;
@@ -446,7 +448,7 @@ body.dark-mode .recipe-instructions h4 {
 }
 
 #beverages1::before {
-  background-image: url('https://www.jbtc.com/foodtech/wp-content/uploads/sites/2/2024/05/Juice-and-Beverage.webp');
+  background-image: url('/static/images/beverages.jpg');
 }
 
 /* Blurred background as a pseudo-element */
@@ -468,7 +470,7 @@ body.dark-mode .recipe-instructions h4 {
 #appetizers span,
 #main-course1 span,
 #dessert1 span {
-  position: absolute;
+  position: relative;
   text-align: center;
   z-index: 1;
   color: rgb(255, 255, 255);
@@ -476,31 +478,22 @@ body.dark-mode .recipe-instructions h4 {
   font-family: "Italianno", cursive;
   font-weight: 500;
   font-style: normal;
-
 }
 
 #dessert1 span {
   font-size: 110px;
-  top: 40%;
-  left: 20%;
 }
 
 #main-course1 span {
   font-size: 100px;
-  top: 40%;
-  left: 5%;
 }
 
 #appetizers span {
   font-size: 100px;
-  top: 40%;
-  left: 15%;
 }
 
 #beverages1 span {
   font-size: 100px;
-  top: 40%;
-  left: 20%;
 }
 
 #beverages1:hover,
