@@ -3,13 +3,30 @@ import json
 import requests
 import sqlite3
 import os
+from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash, check_password_hash
 
-app = Flask(__name__)
-app.secret_key = 'your_secret_key_here'
+load_dotenv()
+
+app = Flask(
+    __name__,
+    static_folder="public/static",
+    template_folder="public/templates"
+)
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "your_secret_key_here")
 
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 DATABASE = 'users.db'
+
+FIREBASE_CONFIG = {
+    "apiKey": os.getenv("FIREBASE_API_KEY"),
+    "authDomain": os.getenv("FIREBASE_AUTH_DOMAIN"),
+    "projectId": os.getenv("FIREBASE_PROJECT_ID"),
+    "storageBucket": os.getenv("FIREBASE_STORAGE_BUCKET"),
+    "messagingSenderId": os.getenv("FIREBASE_MESSAGING_SENDER_ID"),
+    "appId": os.getenv("FIREBASE_APP_ID"),
+    "measurementId": os.getenv("FIREBASE_MEASUREMENT_ID"),
+}
 
 def get_db():
     conn = sqlite3.connect(DATABASE)
@@ -39,7 +56,7 @@ def init_db():
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("index.html", firebase_config=FIREBASE_CONFIG)
 
 @app.route("/recipes.json")
 def get_recipes():
